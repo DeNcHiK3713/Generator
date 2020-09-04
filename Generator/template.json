@@ -1,0 +1,21 @@
+[
+  {
+    "$type": "Generator.OffsetLines.TextLine, Generator",
+    "Section": 2,
+    "Text": "object_TypeInfo_Offset",
+    "Name": "object_TypeInfo"
+  },
+  {
+    "$type": "Generator.OffsetLines.RegexLine, Generator",
+    "Section": 0,
+    "Text": "TestClass_TestMethod_MoveNext_Offset",
+    "Regex": "TestClass\\.<TestMethod>d__\\d+\\$\\$MoveNext"
+  },
+  {
+    "$type": "Generator.OffsetLines.SignatureLine, Generator",
+    "Section": 0,
+    "Text": "Int32_TryParse_Offset",
+    "Signature": "bool System_Int32__TryParse (System_String_o* s, int32_t* result, const MethodInfo* method);"
+  },
+  }
+]
