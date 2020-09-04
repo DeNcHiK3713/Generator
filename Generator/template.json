@@ -1,0 +1,46 @@
+[
+  {
+    "$type": "Generator.OffsetLines.CommentLine, Generator",
+    "Text": "//This is example of template.json",
+  },
+  {
+    "$type": "Generator.OffsetLines.TextLine, Generator",
+    "Section": 2,
+    "Text": "object_TypeInfo_Offset",
+    "Name": "object_TypeInfo"
+  },
+  {
+    "$type": "Generator.OffsetLines.RegexLine, Generator",
+    "Section": 0,
+    "Text": "TestClass_TestMethod_MoveNext_Offset",
+    "Regex": "TestClass\\.<TestMethod>d__\\d+\\$\\$MoveNext"
+  },
+  {
+    "$type": "Generator.OffsetLines.SignatureLine, Generator",
+    "Section": 0,
+    "Text": "Int32_TryParse_Offset",
+    "Signature": "bool System_Int32__TryParse (System_String_o* s, int32_t* result, const MethodInfo* method);"
+  },
+  {
+    "$type": "Generator.OffsetLines.ReplaceMethodPatch, Generator",
+    "Text": "TestClass_Update_Patch",
+    "Target": {
+      "$type": "Generator.OffsetLines.TextLine, Generator",
+      "Section": 0,
+      "Text": "TestClass_Update_Offset",
+      "Name": "TestClass$$Update"
+    },
+    "Search": {
+      "$type": "Generator.OffsetLines.TextLine, Generator",
+      "Section": 0,
+      "Text": "Time_get_deltaTime_Offset",
+      "Name": "UnityEngine.Time$$get_deltaTime"
+    },
+    "Replace": {
+      "$type": "Generator.OffsetLines.TextLine, Generator",
+      "Section": 0,
+      "Text": "Time_get_unscaledDeltaTime_Offset",
+      "Name": "UnityEngine.Time$$get_unscaledDeltaTime"
+    }
+  }
+]
