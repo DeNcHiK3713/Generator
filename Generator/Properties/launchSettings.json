@@ -2,7 +2,7 @@
   "profiles": {
     "Generator": {
       "commandName": "Project",
-      "commandLineArgs": "..\\..\\..\\template.json Z:\\script.json Z:\\libil2cpp.so ARM"
+      "commandLineArgs": "template.json Z:\\script.json Z:\\libil2cpp.so ARM"
     }
   }
 }
