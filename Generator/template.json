@@ -1,7 +1,7 @@
 [
   {
     "$type": "Generator.OffsetLines.CommentLine, Generator",
-    "Text": "//This is example of template.json",
+    "Text": "//This is example of template.json"
   },
   {
     "$type": "Generator.OffsetLines.TextLine, Generator",

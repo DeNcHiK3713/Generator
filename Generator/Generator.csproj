@@ -2,15 +2,13 @@
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
-    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <TargetFramework>net6.0</TargetFramework>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\keystone\bindings\csharp\Keystone.Net\Keystone.Net.csproj" />
+    <PackageReference Include="Gee.External.Capstone" Version="2.3.0" />
+    <PackageReference Include="keystoneengine.csharp" Version="0.9.1.1" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
   </ItemGroup>
 
   <ItemGroup>
@@ -35,6 +33,22 @@
     <None Update="template.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Remove="D:\nuget\teampackages\gee.external.capstone\2.0.2\build\\capstone-x64.dll" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="D:\nuget\teampackages\keystoneengine.csharp\0.9.1.1\build\x64\keystone.dll" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Remove="D:\nuget\teampackages\gee.external.capstone\2.0.2\build\\capstone-x86.dll" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="D:\nuget\teampackages\keystoneengine.csharp\0.9.1.1\build\x86\keystone.dll" />
   </ItemGroup>
 
 </Project>

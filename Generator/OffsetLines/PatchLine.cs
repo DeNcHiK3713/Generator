@@ -34,13 +34,13 @@ namespace Generator.OffsetLines
                     case ScriptSection.ScriptMethod:
                         if (index + 1 < scriptJson.ScriptMethod.Count)
                         {
-                            endOffset = scriptJson.ScriptMethod.ElementAt(index + 1).Address;
+                            endOffset = scriptJson.ScriptMethod.ElementAt(index + 1).Address - 4;
                         }
                         break;
                     case ScriptSection.ScriptMetadata:
                         if (index + 1 < scriptJson.ScriptMetadata.Count)
                         {
-                            endOffset = scriptJson.ScriptMetadata.ElementAt(index + 1).Address;
+                            endOffset = scriptJson.ScriptMetadata.ElementAt(index + 1).Address - 4;
                         }
                         break;
                 }
@@ -51,7 +51,7 @@ namespace Generator.OffsetLines
         {
             var result = new StringBuilder();
 
-            result.Append("#define ").Append(Text).Append("_Offset ").Append(Offset).AppendLine()
+            result.Append("#define ").Append(Text).Append("_Offset ").AppendFormat("\"0x{0:X}\"", Offset).AppendLine()
                   .Append("#define ").Append(Text).Append("_Data ").AppendPatchData(PatchData);
 
             return result.ToString();

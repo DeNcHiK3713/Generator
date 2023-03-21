@@ -13,13 +13,13 @@ namespace Generator
         {
             if (patchData != null)
             {
-                //hex.Capacity = hex.Length + patchData.Length * 6 + 2;
-                hex.Append("{ ");
+                //hex.Capacity = hex.Length + patchData.Length * 3 + 1;
+                hex.Append('\"');
                 for (int i = 0, len = patchData.Length - 1; i < len; i++)
                 {
-                    hex.AppendFormat("0x{0:x2}, ", patchData[i]);
+                    hex.AppendFormat("{0:X2} ", patchData[i]);
                 }
-                hex.AppendFormat("0x{0:x2} }}", patchData[patchData.Length - 1]);
+                hex.AppendFormat("{0:X2}\"", patchData[patchData.Length - 1]);
             }
             return hex;
         }

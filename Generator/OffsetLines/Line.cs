@@ -14,7 +14,7 @@ namespace Generator.OffsetLines
             {
                 FindOffset(scriptJson);
             }
-            return $"#define {Text} {Offset}";
+            return $"#define {Text} \"0x{Offset:X}\"";
         }
     }
 }

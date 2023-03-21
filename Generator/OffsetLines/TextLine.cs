@@ -25,6 +25,10 @@ namespace Generator.OffsetLines
                     index = scriptJson.ScriptMetadata.FindIndex(x => x.Name == Name);
                     Offset = scriptJson.ScriptMetadata.ElementAt(index).Address;
                     break;
+                case ScriptSection.ScriptMetadataMethod:
+                    index = scriptJson.ScriptMetadataMethod.FindIndex(x => x.Name == Name);
+                    Offset = scriptJson.ScriptMetadataMethod.ElementAt(index).Address;
+                    break;
             }
             return index;
         }
