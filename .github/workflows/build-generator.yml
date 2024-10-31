@@ -2,9 +2,9 @@ name: Build and Release
 
 on:
   push:
-    branches: [ "ScriptJson" ]   # Укажите нужные ветки
+    branches: [ "ScriptJson" ]
     tags:
-      - 'v*.*.*'                 # Для запуска при создании тегов
+      - 'v*.*.*'
   pull_request:
     branches: [ "ScriptJson" ]
 
@@ -50,16 +50,37 @@ jobs:
       - name: Publish
         run: dotnet publish ./Generator/Generator.csproj --configuration ${{ matrix.configuration }} --runtime ${{ matrix.runtime }} --output ./publish /p:PublishSingleFile=false
 
-      - name: Upload build artifacts
+      # Создаем архивы
+      - name: Create ZIP archive (Windows)
+        if: runner.os == 'Windows'
+        run: |
+          Compress-Archive -Path ./publish/* -DestinationPath Generator-win-x64.zip
+        shell: pwsh
+
+      - name: Create TAR.GZ archive (Linux)
+        if: runner.os == 'Linux'
+        run: |
+          tar -czvf Generator-linux-x64.tar.gz -C ./publish .
+
+      # Загружаем архивы как артефакты
+      - name: Upload build artifacts (Windows)
+        if: runner.os == 'Windows'
         uses: actions/upload-artifact@v3
         with:
-          name: Generator-${{ matrix.runtime }}
-          path: ./publish
+          name: Generator-win-x64
+          path: Generator-win-x64.zip
+
+      - name: Upload build artifacts (Linux)
+        if: runner.os == 'Linux'
+        uses: actions/upload-artifact@v3
+        with:
+          name: Generator-linux-x64
+          path: Generator-linux-x64.tar.gz
 
   release:
     needs: build
     runs-on: ubuntu-latest
-    if: github.event_name == 'push' || github.event_name == 'workflow_dispatch'
+    if: ${{ github.event_name == 'push' || github.event_name == 'workflow_dispatch' }}
     steps:
       - name: Checkout
         uses: actions/checkout@v3
@@ -80,8 +101,8 @@ jobs:
         uses: ncipollo/release-action@v1
         with:
           artifacts: |
-            ./artifacts/win-x64/*
-            ./artifacts/linux-x64/*
+            artifacts/win-x64/Generator-win-x64.zip
+            artifacts/linux-x64/Generator-linux-x64.tar.gz
           tag: ${{ github.ref_name }}
           name: ${{ github.ref_name }}
           body: "Автоматически сгенерированный релиз для версии ${{ github.ref_name }}."
