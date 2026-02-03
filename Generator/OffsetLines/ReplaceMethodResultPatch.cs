@@ -13,10 +13,14 @@ namespace Generator.OffsetLines
     {
         public Line CalledMethod { get; set; }
         public string Value { get; set; }
-        public override void FindPatch(ScriptJson scriptJson, Stream il2cpp, Architecture architecture)
+        public override void FindPatch(ScriptJson scriptJson, Stream il2cpp, Architecture architecture, Il2CppAddressConverter addressConverter)
         {
-            base.FindPatch(scriptJson, il2cpp, architecture);
+            base.FindPatch(scriptJson, il2cpp, architecture, addressConverter);
             CalledMethod.FindOffset(scriptJson);
+            if (_addressConverter is not null)
+            {
+                CalledMethod.Offset = _addressConverter.RvaToOffset(CalledMethod.Offset);
+            }
 
             if (startOffset != 0)
             {

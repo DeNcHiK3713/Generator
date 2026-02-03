@@ -12,9 +12,9 @@ namespace Generator.OffsetLines
     class AlwaysBranchComparePatch : PatchLine
     {
         public string Value { get; set; }
-        public override void FindPatch(ScriptJson scriptJson, Stream il2cpp, Architecture architecture)
+        public override void FindPatch(ScriptJson scriptJson, Stream il2cpp, Architecture architecture, Il2CppAddressConverter addressConverter)
         {
-            base.FindPatch(scriptJson, il2cpp, architecture);
+            base.FindPatch(scriptJson, il2cpp, architecture, addressConverter);
 
             if (startOffset != 0)
             {

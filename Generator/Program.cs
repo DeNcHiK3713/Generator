@@ -1,4 +1,5 @@
-﻿using Generator;
+﻿using ELFSharp.ELF;
+using Generator;
 using Generator.OffsetLines;
 using Il2CppDumper;
 using Keystone;
@@ -18,7 +19,8 @@ var scriptJson = JsonConvert.DeserializeObject<ScriptJson>(File.ReadAllText(args
 
 using (var il2cpp = File.OpenRead(args[2]))
 {
-    lines.OfType<PatchLine>().ForEach(x => x.FindPatch(scriptJson, il2cpp, arch));
+    var addressConverter = new Il2CppAddressConverter(il2cpp, arch);
+    lines.OfType<PatchLine>().ForEach(x => x.FindPatch(scriptJson, il2cpp, arch, addressConverter));
 }
 
 lines.ForEach(x => Console.WriteLine(x.GetLine(scriptJson)));

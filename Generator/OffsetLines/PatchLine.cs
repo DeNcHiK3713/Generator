@@ -14,12 +14,15 @@ namespace Generator.OffsetLines
         public ulong Offset { get; set; }
         public string Text { get; set; }
 
+        protected Il2CppAddressConverter _addressConverter;
+
         protected ulong startOffset;
         protected ulong endOffset;
         public Line Target { get; set; }
         public byte[] PatchData { get; set; }
-        public virtual void FindPatch(ScriptJson scriptJson, Stream il2cpp, Architecture architecture)
+        public virtual void FindPatch(ScriptJson scriptJson, Stream il2cpp, Architecture architecture, Il2CppAddressConverter addressConverter)
         {
+            _addressConverter = addressConverter;
             FindOffset(scriptJson);
         }
 
@@ -45,10 +48,23 @@ namespace Generator.OffsetLines
                         break;
                 }
             }
+
+            if (_addressConverter is not null)
+            {
+                startOffset = _addressConverter.RvaToOffset(startOffset);
+                endOffset = _addressConverter.RvaToOffset(endOffset);
+            }
+
             return index;
         }
+
         public string GetLine(ScriptJson scriptJson)
         {
+            if (_addressConverter is not null)
+            {
+                Offset = _addressConverter.OffsetToRva(Offset);
+            }
+
             var result = new StringBuilder();
 
             result.Append("#define ").Append(Text).Append("_Offset ").AppendFormat("\"0x{0:X}\"", Offset).AppendLine()

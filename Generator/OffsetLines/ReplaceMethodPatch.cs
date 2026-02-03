@@ -21,11 +21,16 @@ namespace Generator.OffsetLines
         protected ulong getThunkFromStartOffset;
         protected ulong getThunkFromEndOffset;
 
-        public override void FindPatch(ScriptJson scriptJson, Stream il2cpp, Architecture architecture)
+        public override void FindPatch(ScriptJson scriptJson, Stream il2cpp, Architecture architecture, Il2CppAddressConverter addressConverter)
         {
-            base.FindPatch(scriptJson, il2cpp, architecture);
+            base.FindPatch(scriptJson, il2cpp, architecture, addressConverter);
             Search.FindOffset(scriptJson);
             Replace.FindOffset(scriptJson);
+            if (_addressConverter is not null)
+            {
+                Search.Offset = _addressConverter.RvaToOffset(Search.Offset);
+                Replace.Offset = _addressConverter.RvaToOffset(Replace.Offset);
+            }
 
             var index = GetThunkFrom.FindOffset(scriptJson);
             if (index != -1)
@@ -45,6 +50,11 @@ namespace Generator.OffsetLines
                             getThunkFromEndOffset = scriptJson.ScriptMetadata.ElementAt(index + 1).Address - 4;
                         }
                         break;
+                }
+                if (_addressConverter is not null)
+                {
+                    getThunkFromStartOffset = _addressConverter.RvaToOffset(getThunkFromStartOffset);
+                    getThunkFromEndOffset = _addressConverter.RvaToOffset(getThunkFromEndOffset);
                 }
             }
 
