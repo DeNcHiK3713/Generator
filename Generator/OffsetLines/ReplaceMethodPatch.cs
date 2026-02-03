@@ -84,7 +84,11 @@ namespace Generator.OffsetLines
                                 {
                                     var pos = il2cpp.Position;
                                     readed += (ulong)il2cpp.Read(buffer, 0, bufferSize);
-                                    var instruction = disassembler.Disassemble(buffer, pos).First();
+                                    var instruction = disassembler.Disassemble(buffer, pos).FirstOrDefault();
+                                    if (instruction is null)
+                                    {
+                                        continue;
+                                    }
                                     if (instruction.Id == ArmInstructionId.ARM_INS_BL)
                                     {
                                         var newPos = instruction.Details.Operands.First().Immediate;
@@ -97,11 +101,19 @@ namespace Generator.OffsetLines
                                         var retPos = il2cpp.Position;
                                         il2cpp.Position = newPos;
                                         il2cpp.Read(buffer, 0, bufferSize);
-                                        instruction = disassembler.Disassemble(buffer, newPos).First();
+                                        instruction = disassembler.Disassemble(buffer, newPos).FirstOrDefault();
+                                        if (instruction is null)
+                                        {
+                                            continue;
+                                        }
                                         if (instruction.Id == ArmInstructionId.ARM_INS_LDR && instruction.Operand == "ip, [pc]")
                                         {
                                             il2cpp.Read(buffer, 0, bufferSize);
-                                            instruction = disassembler.Disassemble(buffer, newPos).First();
+                                            instruction = disassembler.Disassemble(buffer, newPos).FirstOrDefault();
+                                            if (instruction is null)
+                                            {
+                                                continue;
+                                            }
                                             if (instruction.Id == ArmInstructionId.ARM_INS_ADD && instruction.Operand == "pc, pc, ip")
                                             {
                                                 il2cpp.Read(buffer, 0, bufferSize);
@@ -127,7 +139,11 @@ namespace Generator.OffsetLines
                                 {
                                     var pos = il2cpp.Position;
                                     readed += (ulong)il2cpp.Read(buffer, 0, bufferSize);
-                                    var instruction = disassembler.Disassemble(buffer, pos).First();
+                                    var instruction = disassembler.Disassemble(buffer, pos).FirstOrDefault();
+                                    if (instruction is null)
+                                    {
+                                        continue;
+                                    }
                                     if (instruction.Id == ArmInstructionId.ARM_INS_BL)
                                     {
                                         var newPos = instruction.Details.Operands.First().Immediate;
@@ -139,11 +155,19 @@ namespace Generator.OffsetLines
                                         var retPos = il2cpp.Position;
                                         il2cpp.Position = newPos;
                                         il2cpp.Read(buffer, 0, bufferSize);
-                                        instruction = disassembler.Disassemble(buffer, newPos).First();
+                                        instruction = disassembler.Disassemble(buffer, newPos).FirstOrDefault();
+                                        if (instruction is null)
+                                        {
+                                            continue;
+                                        }
                                         if (instruction.Id == ArmInstructionId.ARM_INS_LDR && instruction.Operand == "ip, [pc]")
                                         {
                                             il2cpp.Read(buffer, 0, bufferSize);
-                                            instruction = disassembler.Disassemble(buffer, newPos).First();
+                                            instruction = disassembler.Disassemble(buffer, newPos).FirstOrDefault();
+                                            if (instruction is null)
+                                            {
+                                                continue;
+                                            }
                                             if (instruction.Id == ArmInstructionId.ARM_INS_ADD && instruction.Operand == "pc, pc, ip")
                                             {
                                                 il2cpp.Read(buffer, 0, bufferSize);
@@ -169,7 +193,11 @@ namespace Generator.OffsetLines
                                 {
                                     var pos = il2cpp.Position;
                                     readed += (ulong)il2cpp.Read(buffer, 0, bufferSize);
-                                    var instruction2 = disassembler2.Disassemble(buffer, pos).First();
+                                    var instruction2 = disassembler2.Disassemble(buffer, pos).FirstOrDefault();
+                                    if (instruction2 is null)
+                                    {
+                                        continue;
+                                    }
                                     if (instruction2.Id == Arm64InstructionId.ARM64_INS_BL)
                                     {
                                         var newPos = instruction2.Details.Operands.First().Immediate;
@@ -182,7 +210,11 @@ namespace Generator.OffsetLines
                                         var retPos = il2cpp.Position;
                                         il2cpp.Position = newPos;
                                         il2cpp.Read(buffer, 0, bufferSize);
-                                        instruction2 = disassembler2.Disassemble(buffer, newPos).First();
+                                        instruction2 = disassembler2.Disassemble(buffer, newPos).FirstOrDefault();
+                                        if (instruction2 is null)
+                                        {
+                                            continue;
+                                        }
                                         if (instruction2.Id == Arm64InstructionId.ARM64_INS_B && instruction2.Details.Operands.First().Immediate == (long)Search.Offset)
                                         {
                                             Offset = (ulong)pos;
@@ -202,7 +234,11 @@ namespace Generator.OffsetLines
                                 {
                                     var pos = il2cpp.Position;
                                     readed += (ulong)il2cpp.Read(buffer, 0, bufferSize);
-                                    var instruction2 = disassembler2.Disassemble(buffer, pos).First();
+                                    var instruction2 = disassembler2.Disassemble(buffer, pos).FirstOrDefault();
+                                    if (instruction2 is null)
+                                    {
+                                        continue;
+                                    }
                                     if (instruction2.Id == Arm64InstructionId.ARM64_INS_BL)
                                     {
                                         var newPos = instruction2.Details.Operands.First().Immediate;
@@ -214,7 +250,11 @@ namespace Generator.OffsetLines
                                         var retPos = il2cpp.Position;
                                         il2cpp.Position = newPos;
                                         il2cpp.Read(buffer, 0, bufferSize);
-                                        instruction2 = disassembler2.Disassemble(buffer, newPos).First();
+                                        instruction2 = disassembler2.Disassemble(buffer, newPos).FirstOrDefault();
+                                        if (instruction2 is null)
+                                        {
+                                            continue;
+                                        }
                                         if (instruction2.Id == Arm64InstructionId.ARM64_INS_B && instruction2.Details.Operands.First().Immediate == (long)Search.Offset)
                                         {
                                             PatchData = keystone.Assemble($"bl #{newPos};", Offset).Buffer;
