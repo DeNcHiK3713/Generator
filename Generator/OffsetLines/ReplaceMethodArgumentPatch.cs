@@ -98,6 +98,41 @@ namespace Generator.OffsetLines
                                                 }
                                             }
                                         }
+                                        if (instruction.Id == ArmInstructionId.ARM_INS_MOVW)
+                                        {
+                                            var strOffs1 = instruction.Operand[(instruction.Operand.IndexOf('#') + 1)..];
+                                            var offs1 = Convert.ToInt32(strOffs1, 16);
+                                            il2cpp.Read(buffer, 0, bufferSize);
+                                            instruction = disassembler.Disassemble(buffer, newPos).FirstOrDefault();
+                                            if (instruction is null)
+                                            {
+                                                continue;
+                                            }
+                                            if (instruction.Id == ArmInstructionId.ARM_INS_MOVT)
+                                            {
+                                                var strOffs2 = instruction.Operand[(instruction.Operand.IndexOf('#') + 1)..];
+                                                var offs2 = Convert.ToInt32(strOffs2, 16);
+                                                offs2 = ((offs2 << 16) | offs1) + newPos + 16;
+                                                if ((ulong)offs2 == CalledMethod.Offset)
+                                                {
+                                                    il2cpp.Position = pos;
+                                                    do
+                                                    {
+                                                        il2cpp.Position -= 8;
+                                                        readed -= (ulong)il2cpp.Read(buffer, 0, bufferSize);
+                                                        instruction = disassembler.Disassemble(buffer).First();
+                                                        if (instruction.Id == ArmInstructionId.ARM_INS_MOV && instruction.Operand.StartsWith($"r{Argument},"))
+                                                        {
+                                                            Offset = (ulong)il2cpp.Position - 4;
+                                                            PatchData = keystone.Assemble($"mov r{Argument}, {Value}", Offset).Buffer;
+                                                            break;
+                                                        }
+                                                    }
+                                                    while (readed > 0);
+                                                    break;
+                                                }
+                                            }
+                                        }
                                         il2cpp.Position = pos;
 
                                     }

@@ -93,6 +93,32 @@ namespace Generator.OffsetLines
                                                 }
                                             }
                                         }
+                                        if (instruction.Id == ArmInstructionId.ARM_INS_MOVW)
+                                        {
+                                            var strOffs1 = instruction.Operand[(instruction.Operand.IndexOf('#') + 1)..];
+                                            var offs1 = Convert.ToInt32(strOffs1, 16);
+                                            il2cpp.Read(buffer, 0, bufferSize);
+                                            instruction = disassembler.Disassemble(buffer, newPos).FirstOrDefault();
+                                            if (instruction is null)
+                                            {
+                                                continue;
+                                            }
+                                            if (instruction.Id == ArmInstructionId.ARM_INS_MOVT)
+                                            {
+                                                var strOffs2 = instruction.Operand[(instruction.Operand.IndexOf('#') + 1)..];
+                                                var offs2 = Convert.ToInt32(strOffs2, 16);
+                                                offs2 = ((offs2 << 16) | offs1) + newPos + 16;
+                                                if ((ulong)offs2 == CalledMethod.Offset)
+                                                {
+                                                    il2cpp.Position = pos + 4;
+                                                    Offset = (ulong)il2cpp.Position;
+                                                    il2cpp.Read(buffer, 0, bufferSize);
+                                                    instruction = disassembler.Disassemble(buffer, (long)Offset).First();
+                                                    PatchData = keystone.Assemble($"b {instruction.Operand}", Offset).Buffer;
+                                                    break;
+                                                }
+                                            }
+                                        }
                                         il2cpp.Position = pos;
 
                                     }
