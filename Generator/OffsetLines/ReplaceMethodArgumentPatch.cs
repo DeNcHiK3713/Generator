@@ -133,6 +133,24 @@ namespace Generator.OffsetLines
                                                 }
                                             }
                                         }
+                                        if (instruction.Id == ArmInstructionId.ARM_INS_B && instruction.Details.Operands.First().Immediate == (long)CalledMethod.Offset)
+                                        {
+                                            il2cpp.Position = pos;
+                                            do
+                                            {
+                                                il2cpp.Position -= 8;
+                                                readed -= (ulong)il2cpp.Read(buffer, 0, bufferSize);
+                                                instruction = disassembler.Disassemble(buffer).First();
+                                                if (instruction.Id == ArmInstructionId.ARM_INS_MOV && instruction.Operand.StartsWith($"r{Argument},"))
+                                                {
+                                                    Offset = (ulong)il2cpp.Position - 4;
+                                                    PatchData = keystone.Assemble($"mov r{Argument}, {Value}", Offset).Buffer;
+                                                    break;
+                                                }
+                                            }
+                                            while (readed > 0);
+                                            break;
+                                        }
                                         il2cpp.Position = pos;
 
                                     }

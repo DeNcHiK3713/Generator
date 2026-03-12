@@ -119,6 +119,15 @@ namespace Generator.OffsetLines
                                                 }
                                             }
                                         }
+                                        if (instruction.Id == ArmInstructionId.ARM_INS_B && instruction.Details.Operands.First().Immediate == (long)CalledMethod.Offset)
+                                        {
+                                            il2cpp.Position = pos;
+                                            Offset = (ulong)pos;
+                                            il2cpp.Read(buffer, 0, bufferSize);
+                                            instruction = disassembler.Disassemble(buffer, (long)Offset).First();
+                                            PatchData = keystone.Assemble($"b {instruction.Operand[instruction.Operand.LastIndexOf('#')..]}", Offset).Buffer;
+                                            break;
+                                        }
                                         il2cpp.Position = pos;
 
                                     }
