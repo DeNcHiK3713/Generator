@@ -6,25 +6,55 @@ using Keystone;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.CommandLine;
 using System.IO;
 using System.Linq;
 
-if (args.Length < 3 || !File.Exists(args[0]) || !File.Exists(args[1]) || !File.Exists(args[2]))
+var templateArgument = new Argument<FileInfo>("template.json")
 {
-    Console.WriteLine("Usage: generator template.json script.json libil2cpp.so");
-    return;
-}
-var lines = JsonConvert.DeserializeObject<IEnumerable<ILine>>(File.ReadAllText(args[0]), new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.Auto });
-var scriptJson = JsonConvert.DeserializeObject<ScriptJson>(File.ReadAllText(args[1]));
+    Description = "Path to template.json file"
+};
 
-using (var il2cpp = File.OpenRead(args[2]))
+var scriptArgument = new Argument<FileInfo>("script.json")
 {
+    Description = "Path to script.json file"
+};
+
+var libArgument = new Argument<FileInfo>("libil2cpp.so")
+{
+    Description = "Path to libil2cpp.so file"
+};
+
+var offsetOption = new Option<bool>("--no-relative", "-nr")
+{
+    Description = "Output addresses as file offsets (file-based patches), otherwise as relative offsets (memory-based patches). Default outputs as relative offsets",
+    Required = false
+};
+
+var rootCommand = new RootCommand("Generate offsets from Il2CppDumper output");
+rootCommand.Arguments.Add(templateArgument);
+rootCommand.Arguments.Add(scriptArgument);
+rootCommand.Arguments.Add(libArgument);
+rootCommand.Options.Add(offsetOption);
+
+rootCommand.SetAction(parseResult =>
+{
+    var templateFile = parseResult.GetValue(templateArgument);
+    var scriptFile = parseResult.GetValue(scriptArgument);
+    var libFile = parseResult.GetValue(libArgument);
+    var relative = !parseResult.GetValue(offsetOption);
+
+    var lines = JsonConvert.DeserializeObject<IEnumerable<ILine>>(File.ReadAllText(templateFile.FullName), new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.Auto });
+    var scriptJson = JsonConvert.DeserializeObject<ScriptJson>(File.ReadAllText(scriptFile.FullName));
+
+    using var il2cpp = libFile.OpenRead();
     var pos = il2cpp.Position;
     using var elf = ELFReader.Load(il2cpp, false);
     var machine = elf.Machine;
     il2cpp.Position = pos;
 
-    var arch = machine switch {
+    var arch = machine switch
+    {
         Machine.ARM => Architecture.ARM,
         Machine.AArch64 => Architecture.ARM64,
         _ => throw new NotSupportedException()
@@ -32,6 +62,8 @@ using (var il2cpp = File.OpenRead(args[2]))
 
     var addressConverter = new Il2CppAddressConverter(il2cpp, arch);
     lines.OfType<PatchLine>().ForEach(x => x.FindPatch(scriptJson, il2cpp, arch, addressConverter));
-}
 
-lines.ForEach(x => Console.WriteLine(x.GetLine(scriptJson)));
+    lines.ForEach(x => Console.WriteLine(x.GetLine(scriptJson, relative)));
+});
+
+return rootCommand.Parse(args).Invoke();

@@ -10,6 +10,7 @@
     <PackageReference Include="Gee.External.Capstone" Version="2.3.0" />
     <PackageReference Include="keystoneengine.csharp" Version="0.9.1.1" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.4" />
+    <PackageReference Include="System.CommandLine" Version="2.0.5" />
   </ItemGroup>
 
   <ItemGroup>

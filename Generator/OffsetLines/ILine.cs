@@ -11,6 +11,6 @@ namespace Generator.OffsetLines
     interface ILine
     {
         string Text { get; set; }
-        string GetLine(ScriptJson scriptJson);
+        string GetLine(ScriptJson scriptJson, bool relative = true);
     }
 }

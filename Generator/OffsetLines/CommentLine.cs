@@ -12,7 +12,7 @@ namespace Generator.OffsetLines
     {
         public string Text { get; set; }
 
-        public string GetLine(ScriptJson scriptJson)
+        public string GetLine(ScriptJson scriptJson, bool relative = true)
         {
             return Text;
         }

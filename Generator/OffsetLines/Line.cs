@@ -8,7 +8,7 @@ namespace Generator.OffsetLines
         public string Text { get; set; }
         public ScriptSection Section { get; set; }
         public abstract int FindOffset(ScriptJson scriptJson);
-        public virtual string GetLine(ScriptJson scriptJson)
+        public virtual string GetLine(ScriptJson scriptJson, bool relative = true)
         {
             if (Offset == 0)
             {

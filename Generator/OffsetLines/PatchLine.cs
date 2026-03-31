@@ -58,9 +58,9 @@ namespace Generator.OffsetLines
             return index;
         }
 
-        public string GetLine(ScriptJson scriptJson)
+        public string GetLine(ScriptJson scriptJson, bool relative = true)
         {
-            if (_addressConverter is not null)
+            if (relative && _addressConverter is not null)
             {
                 Offset = _addressConverter.OffsetToRva(Offset);
             }
