@@ -47,7 +47,7 @@ namespace Generator.OffsetLines
                                     var pos = il2cpp.Position;
                                     readed += (ulong)il2cpp.Read(buffer, 0, bufferSize);
                                     var instruction = disassembler.Disassemble(buffer, pos).First();
-                                    if (instruction.Id == ArmInstructionId.ARM_INS_BL)
+                                    if (instruction.Id == ArmInstructionId.ARM_INS_B || instruction.Id == ArmInstructionId.ARM_INS_BL)
                                     {
                                         var newPos = instruction.Details.Operands.First().Immediate;
                                         if (newPos == (long)CalledMethod.Offset)
@@ -167,7 +167,7 @@ namespace Generator.OffsetLines
                                     var pos = il2cpp.Position;
                                     readed += (ulong)il2cpp.Read(buffer, 0, bufferSize);
                                     var instruction2 = disassembler2.Disassemble(buffer, pos).First();
-                                    if (instruction2.Id == Arm64InstructionId.ARM64_INS_BL)
+                                    if (instruction2.Id == Arm64InstructionId.ARM64_INS_B || instruction2.Id == Arm64InstructionId.ARM64_INS_BL)
                                     {
                                         var newPos = instruction2.Details.Operands.First().Immediate;
                                         if (newPos == (long)CalledMethod.Offset)
@@ -177,7 +177,7 @@ namespace Generator.OffsetLines
                                                 il2cpp.Position -= 8;
                                                 readed -= (ulong)il2cpp.Read(buffer, 0, bufferSize);
                                                 instruction2 = disassembler2.Disassemble(buffer).First();
-                                                if (instruction2.Id == Arm64InstructionId.ARM64_INS_MOV && instruction2.Operand.StartsWith($"w{Argument},"))
+                                                if ((instruction2.Id == Arm64InstructionId.ARM64_INS_MOV || instruction2.Id == Arm64InstructionId.ARM64_INS_MOVZ) && instruction2.Operand.StartsWith($"w{Argument},"))
                                                 {
                                                     Offset = (ulong)il2cpp.Position - 4;
                                                     PatchData = keystone.Assemble($"mov w{Argument}, {Value}", Offset).Buffer;
