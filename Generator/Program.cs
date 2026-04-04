@@ -63,7 +63,7 @@ rootCommand.SetAction(parseResult =>
     var addressConverter = new Il2CppAddressConverter(il2cpp, arch);
     lines.OfType<PatchLine>().ForEach(x => x.FindPatch(scriptJson, il2cpp, arch, addressConverter));
 
-    lines.ForEach(x => Console.WriteLine(x.GetLine(scriptJson, relative)));
+    lines.ForEach(x => Console.WriteLine(x.GetLine(scriptJson, relative, addressConverter)));
 });
 
 return rootCommand.Parse(args).Invoke();

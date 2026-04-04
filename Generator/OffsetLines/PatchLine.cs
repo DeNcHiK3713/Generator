@@ -58,11 +58,11 @@ namespace Generator.OffsetLines
             return index;
         }
 
-        public string GetLine(ScriptJson scriptJson, bool relative = true)
+        public string GetLine(ScriptJson scriptJson, bool relative = true, Il2CppAddressConverter addressConverter = null)
         {
-            if (relative && _addressConverter is not null)
+            if (relative && addressConverter is not null)
             {
-                Offset = _addressConverter.OffsetToRva(Offset);
+                Offset = addressConverter.OffsetToRva(Offset);
             }
 
             var result = new StringBuilder();
