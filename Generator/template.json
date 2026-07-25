@@ -6,40 +6,41 @@
   {
     "$type": "Generator.OffsetLines.TextLine, Generator",
     "Section": 2,
-    "Text": "object_TypeInfo_Offset",
+    "Text": "#define object_TypeInfo_Offset \"0x{0:X}\"",
     "Name": "object_TypeInfo"
   },
   {
     "$type": "Generator.OffsetLines.RegexLine, Generator",
     "Section": 0,
-    "Text": "TestClass_TestMethod_MoveNext_Offset",
+    "Text": "#define TestClass_TestMethod_MoveNext_Offset \"0x{0:X}\"",
     "Regex": "TestClass\\.<TestMethod>d__\\d+\\$\\$MoveNext"
   },
   {
     "$type": "Generator.OffsetLines.SignatureLine, Generator",
     "Section": 0,
-    "Text": "Int32_TryParse_Offset",
+    "Text": "#define Int32_TryParse_Offset \"0x{0:X}\"",
     "Signature": "bool System_Int32__TryParse (System_String_o* s, int32_t* result, const MethodInfo* method);"
   },
   {
     "$type": "Generator.OffsetLines.ReplaceMethodPatch, Generator",
-    "Text": "TestClass_Update_Patch",
+    "Text": "#define TestClass_Update_Patch_Offset \"0x{0:X}\"",
+    "PatchDataText": "#define TestClass_Update_Patch_Data \"{0}\"",
     "Target": {
       "$type": "Generator.OffsetLines.TextLine, Generator",
       "Section": 0,
-      "Text": "TestClass_Update_Offset",
+      "Text": "#define TestClass_Update_Offset \"0x{0:X}\"",
       "Name": "TestClass$$Update"
     },
     "Search": {
       "$type": "Generator.OffsetLines.TextLine, Generator",
       "Section": 0,
-      "Text": "Time_get_deltaTime_Offset",
+      "Text": "#define Time_get_deltaTime_Offset \"0x{0:X}\"",
       "Name": "UnityEngine.Time$$get_deltaTime"
     },
     "Replace": {
       "$type": "Generator.OffsetLines.TextLine, Generator",
       "Section": 0,
-      "Text": "Time_get_unscaledDeltaTime_Offset",
+      "Text": "#define Time_get_unscaledDeltaTime_Offset \"0x{0:X}\"",
       "Name": "UnityEngine.Time$$get_unscaledDeltaTime"
     }
   }

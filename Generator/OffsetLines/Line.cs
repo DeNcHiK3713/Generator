@@ -20,7 +20,7 @@ namespace Generator.OffsetLines
                 Offset = addressConverter.RvaToOffset(Offset);
             }
 
-            return $"#define {Text} \"0x{Offset:X}\"";
+            return string.Format(Text, Offset);
         }
     }
 }

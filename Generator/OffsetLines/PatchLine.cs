@@ -13,6 +13,7 @@ namespace Generator.OffsetLines
     {
         public ulong Offset { get; set; }
         public string Text { get; set; }
+        public string PatchDataText { get; set; }
 
         protected Il2CppAddressConverter _addressConverter;
 
@@ -65,10 +66,13 @@ namespace Generator.OffsetLines
                 Offset = addressConverter.OffsetToRva(Offset);
             }
 
+            var patchDataHex = PatchData != null ? BitConverter.ToString(PatchData).Replace("-", " ") : "";
+
             var result = new StringBuilder();
 
-            result.Append("#define ").Append(Text).Append("_Offset ").AppendFormat("\"0x{0:X}\"", Offset).AppendLine()
-                  .Append("#define ").Append(Text).Append("_Data ").AppendPatchData(PatchData);
+            result.AppendFormat(Text, Offset)
+                  .AppendLine()
+                  .AppendFormat(PatchDataText, patchDataHex);
 
             return result.ToString();
         }

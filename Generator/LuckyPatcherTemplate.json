@@ -1,0 +1,63 @@
+[
+  {
+    "$type": "Generator.OffsetLines.CommentLine, Generator",
+    "Text": "[BEGIN]"
+  },
+  {
+    "$type": "Generator.OffsetLines.CommentLine, Generator",
+    "Text": "[LIB-ARM64-V8A]"
+  },
+  {
+    "$type": "Generator.OffsetLines.CommentLine, Generator",
+    "Text": "{\"name\":\"libil2cpp.so\"}"
+  },
+  {
+    "$type": "Generator.OffsetLines.CommentLine, Generator",
+    "Text": ""
+  },
+  {
+    "$type": "Generator.OffsetLines.CommentLine, Generator",
+    "Text": "{\"apk_build\":\"\"}"
+  },
+  {
+    "$type": "Generator.OffsetLines.ReplaceMethodPatch, Generator",
+    "Text": "{{\"offset\":\"{0:X}\"}}",
+    "PatchDataText": "{{\"replaced\":\"{0}\"}}",
+    "Target": {
+      "$type": "Generator.OffsetLines.TextLine, Generator",
+      "Section": 0,
+      "Text": "",
+      "Name": "TestClass$$Update"
+    },
+    "Search": {
+      "$type": "Generator.OffsetLines.TextLine, Generator",
+      "Section": 0,
+      "Text": "",
+      "Name": "UnityEngine.Time$$get_deltaTime"
+    },
+    "Replace": {
+      "$type": "Generator.OffsetLines.TextLine, Generator",
+      "Section": 0,
+      "Text": "",
+      "Name": "UnityEngine.Time$$get_unscaledDeltaTime"
+    }
+  },
+  {
+    "$type": "Generator.OffsetLines.CommentLine, Generator",
+    "Text": ""
+  },
+  {
+    "$type": "Generator.OffsetLines.CommentLine, Generator",
+    "Text": "{\"apk_build\":\"\"}"
+  },
+  {
+    "$type": "Generator.OffsetLines.TextLine, Generator",
+    "Section": 0,
+    "Text": "{{\"offset\":\"{0:X}\"}}",
+    "Name": "SomeClass$$set_Variable"
+  },
+  {
+    "$type": "Generator.OffsetLines.CommentLine, Generator",
+    "Text": "{\"replaced\":\"DE AD BE AF\"}"
+  }
+]
