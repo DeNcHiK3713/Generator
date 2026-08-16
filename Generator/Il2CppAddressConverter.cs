@@ -44,7 +44,7 @@ namespace Generator
         {
             if (rva >= _loadAddress && rva < _loadAddress + _size)
             {
-                return rva - _loadAddress + _offset;
+                return RvaToOffsetUnsafe(rva);
             }
 
             return rva;
@@ -54,10 +54,20 @@ namespace Generator
         {
             if (offset >= _offset && offset < _offset + _size)
             {
-                return offset - _offset + _loadAddress;
+                return OffsetToRvaUnsafe(offset);
             }
 
             return offset;
+        }
+
+        internal ulong RvaToOffsetUnsafe(ulong rva)
+        {
+            return rva - _loadAddress + _offset;
+        }
+
+        internal ulong OffsetToRvaUnsafe(ulong offset)
+        {
+            return offset - _offset + _loadAddress;
         }
     }
 

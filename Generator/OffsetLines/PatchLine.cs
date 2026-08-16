@@ -63,16 +63,24 @@ namespace Generator.OffsetLines
         {
             if (relative && addressConverter is not null)
             {
-                Offset = addressConverter.OffsetToRva(Offset);
+                if (this is GetFirstMethodOffsetPatch)
+                {
+                    Offset = addressConverter.OffsetToRvaUnsafe(Offset);
+                }
+                else
+                {
+                    Offset = addressConverter.OffsetToRva(Offset);
+                }
             }
 
-            var patchDataHex = PatchData != null ? BitConverter.ToString(PatchData).Replace("-", " ") : "";
+            var result = new StringBuilder().AppendFormat(Text, Offset);
 
-            var result = new StringBuilder();
-
-            result.AppendFormat(Text, Offset)
-                  .AppendLine()
-                  .AppendFormat(PatchDataText, patchDataHex);
+            if (PatchData is not null && PatchDataText is not null)
+            {
+                var patchDataHex = BitConverter.ToString(PatchData).Replace("-", " ");
+                result.AppendLine()
+                      .AppendFormat(PatchDataText, patchDataHex);
+            }
 
             return result.ToString();
         }
