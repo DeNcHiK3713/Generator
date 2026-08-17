@@ -14,7 +14,7 @@ and extract keystone.dll to same folder.
 3. Then you can type run following command:
 
 ```bash
-generator template.json .\path\to\script.json .\path\to\libil2cpp.so ARM
+generator template.json .\path\to\script.json .\path\to\libil2cpp.so
 ```
 
 Or you can use bat files.
